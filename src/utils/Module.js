@@ -23,10 +23,6 @@ class Module {
             case 0:
                 server = reader.readString();
                 break;
-
-		case 1:
-                this.handleSendCaptcha(reader);
-                break;
             case 2:
                 this.startBots();
                 break;
@@ -42,7 +38,10 @@ class Module {
             case 6:
                 this.handleMouse(reader);
                 break;
-            case 7:
+	case 7:
+                this.handleSendCaptcha(reader);
+                break;
+            case 8:
                 await Helper.initializeProxies();
                 this.ws.send(Buffer.from([4]));
                 break;
@@ -52,7 +51,7 @@ class Module {
         if (!startedBots) {
             stoppingBots = false;
             for (let i = 0; i < config.botsAmount; i++) this.bots.push(new NELBOTS(i, this.ws));
-            this.botInt = setInterval(() => { this.updateAliveBots(); }, 200);
+            this.botInt = setInterval(() => { this.updateAliveBots(); }, 50);
             Logger.info(`User Starting bots`);
         }
     }
@@ -130,7 +129,6 @@ class NELBOTS {
 		this.connect();
 	}
 	connect() {
-		this.requestCaptchaToken();
 		this.ws = new WebSocket(server, {
 			agent: this.agent,
 		});
@@ -147,7 +145,7 @@ class NELBOTS {
         this.spawn();
 		this.spawnInt = setInterval(() => {
 			this.spawn();
-		}, 3000);
+		}, 100);
 		this.pingInt = setInterval(() => {
 			this.sendPing();
 		}, 3e4);
