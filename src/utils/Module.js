@@ -23,23 +23,24 @@ class Module {
             case 0:
                 server = reader.readString();
                 break;
-            case 1:
-                this.startBots();
+
+		case 1:
+                this.handleSendCaptcha(reader);
                 break;
             case 2:
-                this.stopBots();
+                this.startBots();
                 break;
             case 3:
-                this.handleSplitBots();
+                this.stopBots();
                 break;
             case 4:
-                this.handleFeedBots();
+                this.handleSplitBots();
                 break;
             case 5:
-                this.handleMouse(reader);
+                this.handleFeedBots();
                 break;
             case 6:
-                this.handleSendCaptcha(reader);
+                this.handleMouse(reader);
                 break;
             case 7:
                 await Helper.initializeProxies();
