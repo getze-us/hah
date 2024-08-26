@@ -132,8 +132,6 @@ class NELBOTS {
 		this.requestCaptchaToken();
 		this.ws = new WebSocket(server, {
 			agent: this.agent,
-			headers: this.headers,
-			rejectUnauthorized: false
 		});
 		this.ws.binaryType = "arraybuffer";
 		this.ws.onopen = this.onopen.bind(this);
